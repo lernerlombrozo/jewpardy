@@ -1,5 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
+import * as firebase from 'firebase/app';
+import 'firebase/database';
+
 @Component({
   selector: 'app-question',
   templateUrl: './question.component.html',
@@ -16,7 +19,21 @@ export class QuestionComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.initTimer(5)
+    this.listenDB()
+  }
+
+  user : string;
+  listenDB(){
+    console.log('listening db')
+    var stopsRef = firebase.database().ref('game/stops');
+    stopsRef.on('value', (snapshot)=> {
+      snapshot.forEach((child) => {
+        if(!this.user){
+          this.user = child.val().user;
+          this.initTimer(5);
+        }
+      });
+    });
   }
 
   seconds = 0;
@@ -36,7 +53,15 @@ export class QuestionComponent implements OnInit {
   }
 
   closeQuestion(){
-    this.onClose.emit();
+    this.onClose.emit('error');
+  }
+
+  success(){
+    this.onClose.emit('success');
+  }
+
+  error(){
+    this.onClose.emit('error');
   }
 
 }

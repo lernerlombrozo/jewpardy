@@ -7,14 +7,20 @@
       {{question.question}}
     </div>
   </div>
-  <div class="timer-container">
-    <div class="timer">
-        <span *ngIf="seconds<10">0</span>{{seconds}}:<span *ngIf="centiSeconds<10">0</span>{{centiSeconds}}
-    </div>
-  </div>
-  <div class="buttons-container">
-    <div class="buttons">
-
-    </div>
-  </div>
+  <ng-container *ngIf="user">
+      <div class="timer-container">
+          <div class="timer">
+              <span *ngIf="seconds<10">0</span>{{seconds}}:<span *ngIf="centiSeconds<10">0</span>{{centiSeconds}}
+          </div>
+        </div>
+        <div class="timer-container">
+            <div class="timer">
+                {{user}}
+            </div>
+          </div>
+        <div class="button-container">
+              <button class="button button2" (click)="success()">Success</button>
+              <button class="button button2" (click)="error()">Error</button>
+        </div>
+  </ng-container>
 </div>

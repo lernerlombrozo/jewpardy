@@ -1,6 +1,6 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center; width:100%">
-	<div class="grid-container">
+	<div class="grid-container" (click)="resetAll()">
 		<div class="grid-item" *ngFor="let category of game">{{category.name}}</div>
 	</div>
 	<div class="grid-container">

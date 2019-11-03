@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 import { environment } from '../environments/environment';
 import * as firebase from 'firebase/app';
+import 'firebase/database';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,34 @@ export class AppComponent {
   ngOnInit(){
     firebase.initializeApp(environment.firebaseConfig)
   }
+
+  counter=0;
+  resetAll(){
+	if(this.counter ==10){
+		firebase.database().ref('game/').remove((error)=>{
+			if (error) {
+			  alert('error deleting')
+			} else {
+				alert('restarted database')
+			}
+		});
+	}
+	this.counter = 0;
+	}
+
+	getGame(){
+		var gameRef = firebase.database().ref('game/');
+		gameRef.on('child_added', (data) => {
+			console.log(data)
+		});
+	}
+
+	initQuestion(){
+		console.log('here')
+		return firebase.database().ref('game/').set({
+			stops:[]
+		})
+	}
   
 
 	game: {
@@ -188,8 +217,10 @@ export class AppComponent {
 	}
 
 	openQuestion(question){
-		this.selectedQuestion = question;
-		this.questionOpened=true;
+		this.initQuestion().then((success)=>{
+			this.selectedQuestion = question;
+			this.questionOpened=true;
+		})
 	}
 
 

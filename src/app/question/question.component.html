@@ -1,0 +1,20 @@
+<div class="question-modal">
+  <div class="close-bar">
+    <div class="close-button" (click)="closeQuestion()">X</div>
+  </div>
+  <div class="question-container">
+    <div class="question">
+      {{question.question}}
+    </div>
+  </div>
+  <div class="timer-container">
+    <div class="timer">
+        <span *ngIf="seconds<10">0</span>{{seconds}}:<span *ngIf="centiSeconds<10">0</span>{{centiSeconds}}
+    </div>
+  </div>
+  <div class="buttons-container">
+    <div class="buttons">
+
+    </div>
+  </div>
+</div>

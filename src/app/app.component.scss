@@ -1,0 +1,23 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    background-color: rgb(4,12,233);
+    padding: 10px;
+    font-size: 30px;
+    color: white;
+}
+
+.grid-container-column{
+    grid-auto-flow: column;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    background-color: rgb(4,12,233);
+    padding: 0px;
+    font-size: 50px;
+    color: yellow;
+}
+.grid-item {
+    border: 3px solid rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    text-align: center;
+}

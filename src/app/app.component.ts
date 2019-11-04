@@ -13,11 +13,13 @@ export class AppComponent {
   title = 'jewpardy';
 
   ngOnInit(){
-    firebase.initializeApp(environment.firebaseConfig)
+	firebase.initializeApp(environment.firebaseConfig);
+	this.getGame();
   }
 
   counter=0;
   resetAll(){
+	  console.log(this.counter)
 	if(this.counter ==10){
 		firebase.database().ref('game/').remove((error)=>{
 			if (error) {
@@ -26,21 +28,84 @@ export class AppComponent {
 				alert('restarted database')
 			}
 		});
+		this.counter = 0;
 	}
-	this.counter = 0;
+	this.counter++
 	}
 
+	gamePoints:any;
 	getGame(){
-		var gameRef = firebase.database().ref('game/');
-		gameRef.on('child_added', (data) => {
-			console.log(data)
+		var gameRef = firebase.database().ref('game/points');
+		gameRef.on('value', (snapshot) => {
+			this.gamePoints = snapshot.val()
+			console.log('gamepoints: ', this.gamePoints)
 		});
 	}
 
 	initQuestion(){
 		console.log('here')
-		return firebase.database().ref('game/').set({
-			stops:[]
+		return firebase.database().ref('game/stops').remove((error)=>{
+			if (error) {
+			  alert('error deleting')
+			} else {
+				console.log('deleted stops')
+			}
+		});
+	}
+
+	selectedQuestion:{
+		points:number,
+		question:string,
+		answer:string
+	}
+	categoryIndex:number;
+	questionIndex:number;
+	questionOpened = false;
+	closeQuestion(event){
+		console.log(event)
+		if(event.event==='success'){
+			this.addPoints(event.uid, event.points)
+		} else if (event.event==='error'){
+			this.removePoints(event.uid, event.points)
+		}else{
+			this.categoryIndex=null;
+			this.questionIndex=null;
+		}
+		this.questionOpened=false;
+	}
+
+	openQuestion(question,categoryI,questionI){
+		this.initQuestion().then((success)=>{
+			this.categoryIndex = categoryI;
+			this.questionIndex = questionI;
+			this.selectedQuestion = question;
+			this.questionOpened=true;
+		})
+	}
+
+	addPoints(uid,points){
+		console.log('adding ' + points + ' points to ' + uid, this.gamePoints)
+		if(this.gamePoints && this.gamePoints[uid]){
+			points = points + this.gamePoints[uid];
+		}
+		var pointsRef = firebase.database().ref('game/points/'+uid);
+		pointsRef.set(points).then((res)=>{
+			console.log('success adding points',res)
+		}).catch((err)=>{
+			console.log(err)
+		})
+	}
+
+	removePoints(uid,points){
+		console.log('removing ' + points + ' points to ' + uid, this.gamePoints)
+		if(this.gamePoints && this.gamePoints[uid]){
+			points = Math.max(this.gamePoints[uid]-points,0);
+		}
+		var pointsRef = firebase.database().ref('game/points/'+uid);
+		pointsRef.set(points).then((res)=>{
+			console.log('success adding points',res)
+		}).catch((err)=>{
+			console.log(err)
 		})
 	}
   
@@ -205,24 +270,5 @@ export class AppComponent {
 			]
 		}
 	]
-
-	selectedQuestion:{
-		points:number,
-		question:string,
-		answer:string
-	}
-	questionOpened = false;
-	closeQuestion(){
-		this.questionOpened=false;
-	}
-
-	openQuestion(question){
-		this.initQuestion().then((success)=>{
-			this.selectedQuestion = question;
-			this.questionOpened=true;
-		})
-	}
-
-
 
 }

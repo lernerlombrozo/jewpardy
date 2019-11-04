@@ -4,9 +4,9 @@
 		<div class="grid-item" *ngFor="let category of game">{{category.name}}</div>
 	</div>
 	<div class="grid-container">
-		<div class="grid-container-column" *ngFor="let category of game">
-			<div class="grid-item" *ngFor="let question of category.questions" (click)="openQuestion(question)"><b>${{question.points}}</b></div>
+		<div class="grid-container-column" *ngFor="let category of game; let c = index">
+			<div class="grid-item" *ngFor="let question of category.questions; let q = index" (click)="openQuestion(question,c,q)"><b>${{question.answered? question.answer : question.points}}</b></div>
 		</div>
 	</div>
 </div>
-<app-question *ngIf="questionOpened" [question]="selectedQuestion" (onClose)="closeQuestion()"></app-question>
+<app-question *ngIf="questionOpened" [question]="selectedQuestion" (onClose)="closeQuestion($event)"></app-question>

@@ -23,13 +23,16 @@ export class QuestionComponent implements OnInit {
   }
 
   user : string;
+  uid : string;
   listenDB(){
-    console.log('listening db')
+    console.log('listening db stops')
     var stopsRef = firebase.database().ref('game/stops');
     stopsRef.on('value', (snapshot)=> {
+      console.log('newSomethinf')
       snapshot.forEach((child) => {
         if(!this.user){
           this.user = child.val().user;
+          this.uid = child.val().uid;
           this.initTimer(5);
         }
       });
@@ -53,15 +56,15 @@ export class QuestionComponent implements OnInit {
   }
 
   closeQuestion(){
-    this.onClose.emit('error');
+    this.onClose.emit({event:'close',uid:null, points:null});
   }
 
   success(){
-    this.onClose.emit('success');
+    this.onClose.emit({event:'success',uid:this.uid, points:this.question.points});
   }
 
   error(){
-    this.onClose.emit('error');
+    this.onClose.emit({event:'error',uid:this.uid, points:this.question.points});
   }
 
 }

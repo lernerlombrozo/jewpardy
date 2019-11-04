@@ -75,6 +75,7 @@ export class AppComponent {
 	}
 
 	openQuestion(question,categoryI,questionI){
+		if(question.answered) return;
 		this.initQuestion().then((success)=>{
 			this.categoryIndex = categoryI;
 			this.questionIndex = questionI;
@@ -94,6 +95,7 @@ export class AppComponent {
 		}).catch((err)=>{
 			console.log(err)
 		})
+		this.game[this.categoryIndex].questions[this.questionIndex].answered=true;
 	}
 
 	removePoints(uid,points){

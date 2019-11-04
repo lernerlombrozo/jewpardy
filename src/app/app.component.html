@@ -5,7 +5,7 @@
 	</div>
 	<div class="grid-container">
 		<div class="grid-container-column" *ngFor="let category of game; let c = index">
-			<div class="grid-item" *ngFor="let question of category.questions; let q = index" (click)="openQuestion(question,c,q)"><b>${{question.answered? question.answer : question.points}}</b></div>
+			<div class="grid-item" *ngFor="let question of category.questions; let q = index" (click)="openQuestion(question,c,q)" [ngClass]="{'price':!question.answered, 'answer':question.answered}"><b>{{question.answered? question.answer : '$'+question.points}}</b></div>
 		</div>
 	</div>
 </div>

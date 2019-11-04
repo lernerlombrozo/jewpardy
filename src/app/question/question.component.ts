@@ -33,7 +33,7 @@ export class QuestionComponent implements OnInit {
         if(!this.user){
           this.user = child.val().user;
           this.uid = child.val().uid;
-          this.initTimer(5);
+          this.initTimer(20);
         }
       });
     });
@@ -50,7 +50,7 @@ export class QuestionComponent implements OnInit {
       this.centiSeconds = Math.floor((d % (1000)) / 10);
       if (d < 0) {
         clearInterval(x);
-        this.closeQuestion();
+        this.error();
       }
     },10);
   }

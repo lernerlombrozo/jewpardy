@@ -3,11 +3,13 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { QuestionComponent } from './question/question.component';
+import { EmailNamePipe } from './email-name.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    QuestionComponent
+    QuestionComponent,
+    EmailNamePipe
   ],
   imports: [
     BrowserModule

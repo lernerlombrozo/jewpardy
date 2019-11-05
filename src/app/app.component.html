@@ -1,12 +1,21 @@
-<!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center; width:100%">
 	<div class="grid-container" (click)="resetAll()">
-		<div class="grid-item" *ngFor="let category of game">{{category.name}}</div>
+		<div class="grid-item-header" *ngFor="let category of game">{{category.name}}</div>
+		<div class="grid-item" *ngFor="let category of game;let c = index" (click)="openQuestion(category.questions[0],c,0)" [ngClass]="{'category.questions[0].price':!category.questions[0].answered, 'answer':category.questions[0].answered}"><b>{{category.questions[0].answered? category.questions[0].answer : '$'+category.questions[0].points}}</b></div>
+		<div class="grid-item" *ngFor="let category of game;let c = index" (click)="openQuestion(category.questions[1],c,1)" [ngClass]="{'category.questions[1].price':!category.questions[1].answered, 'answer':category.questions[1].answered}"><b>{{category.questions[1].answered? category.questions[1].answer : '$'+category.questions[1].points}}</b></div>
+		<div class="grid-item" *ngFor="let category of game;let c = index" (click)="openQuestion(category.questions[2],c,2)" [ngClass]="{'category.questions[2].price':!category.questions[2].answered, 'answer':category.questions[2].answered}"><b>{{category.questions[2].answered? category.questions[2].answer : '$'+category.questions[2].points}}</b></div>
+		<div class="grid-item" *ngFor="let category of game;let c = index" (click)="openQuestion(category.questions[3],c,3)" [ngClass]="{'category.questions[3].price':!category.questions[3].answered, 'answer':category.questions[3].answered}"><b>{{category.questions[3].answered? category.questions[3].answer : '$'+category.questions[3].points}}</b></div>
+		<div class="grid-item" *ngFor="let category of game;let c = index" (click)="openQuestion(category.questions[4],c,4)" [ngClass]="{'category.questions[4].price':!category.questions[4].answered, 'answer':category.questions[4].answered}"><b>{{category.questions[4].answered? category.questions[4].answer : '$'+category.questions[4].points}}</b></div>
 	</div>
-	<div class="grid-container">
-		<div class="grid-container-column" *ngFor="let category of game; let c = index">
-			<div class="grid-item" *ngFor="let question of category.questions; let q = index" (click)="openQuestion(question,c,q)" [ngClass]="{'price':!question.answered, 'answer':question.answered}"><b>{{question.answered? question.answer : '$'+question.points}}</b></div>
-		</div>
+</div>
+<div class="teams">
+	<div class="team" *ngFor="let team of gamePointsArray">
+		<h3 class="name">
+			{{team.email | emailName | titlecase}}
+		</h3>
+		<h3 class="points">
+			{{team.points}}
+		</h3>
 	</div>
 </div>
 <app-question *ngIf="questionOpened" [question]="selectedQuestion" (onClose)="closeQuestion($event)"></app-question>

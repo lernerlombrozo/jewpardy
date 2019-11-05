@@ -20,6 +20,7 @@ export class QuestionComponent implements OnInit {
 
   ngOnInit() {
     this.listenDB()
+    console.log('xxxx',this.question)
   }
 
   user : string;
@@ -33,7 +34,7 @@ export class QuestionComponent implements OnInit {
         if(!this.user){
           this.user = child.val().user;
           this.uid = child.val().uid;
-          this.initTimer(20);
+          this.initTimer(10);
         }
       });
     });
@@ -56,15 +57,15 @@ export class QuestionComponent implements OnInit {
   }
 
   closeQuestion(){
-    this.onClose.emit({event:'close',uid:null, points:null});
+    this.onClose.emit({event:'close',uid:null, points:null, email:null});
   }
 
   success(){
-    this.onClose.emit({event:'success',uid:this.uid, points:this.question.points});
+    this.onClose.emit({event:'success',uid:this.uid, points:this.question.points, email:this.user});
   }
 
   error(){
-    this.onClose.emit({event:'error',uid:this.uid, points:this.question.points});
+    this.onClose.emit({event:'error',uid:this.uid, points:this.question.points, email:this.user});
   }
 
 }

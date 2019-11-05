@@ -19,7 +19,6 @@ export class AppComponent {
 
   counter=0;
   resetAll(){
-	  console.log(this.counter)
 	if(this.counter ==10){
 		firebase.database().ref('game/').remove((error)=>{
 			if (error) {
@@ -34,16 +33,20 @@ export class AppComponent {
 	}
 
 	gamePoints:any;
+	gamePointsArray:any[]=[];
 	getGame(){
 		var gameRef = firebase.database().ref('game/points');
 		gameRef.on('value', (snapshot) => {
-			this.gamePoints = snapshot.val()
-			console.log('gamepoints: ', this.gamePoints)
+			this.gamePoints = snapshot.val();
+			this.gamePointsArray=[];
+			for (var key of Object.keys(this.gamePoints)) {
+				this.gamePointsArray.push(this.gamePoints[key])
+			}
+			console.log('XXXXX',this.gamePointsArray);
 		});
 	}
 
 	initQuestion(){
-		console.log('here')
 		return firebase.database().ref('game/stops').remove((error)=>{
 			if (error) {
 			  alert('error deleting')
@@ -62,11 +65,10 @@ export class AppComponent {
 	questionIndex:number;
 	questionOpened = false;
 	closeQuestion(event){
-		console.log(event)
 		if(event.event==='success'){
-			this.addPoints(event.uid, event.points)
+			this.addPoints(event.uid, event.points, event.email)
 		} else if (event.event==='error'){
-			this.removePoints(event.uid, event.points)
+			this.removePoints(event.uid, event.points, event.email)
 		}else{
 			this.categoryIndex=null;
 			this.questionIndex=null;
@@ -84,28 +86,24 @@ export class AppComponent {
 		})
 	}
 
-	addPoints(uid,points){
-		console.log('adding ' + points + ' points to ' + uid, this.gamePoints)
-		if(this.gamePoints && this.gamePoints[uid]){
-			points = points + this.gamePoints[uid];
+	addPoints(uid,points, email){
+		if(this.gamePoints && this.gamePoints[uid] && this.gamePoints[uid].points){
+			points = points + this.gamePoints[uid].points;
 		}
 		var pointsRef = firebase.database().ref('game/points/'+uid);
-		pointsRef.set(points).then((res)=>{
-			console.log('success adding points',res)
+		pointsRef.set({points,email}).then((res)=>{
 		}).catch((err)=>{
 			console.log(err)
 		})
 		this.game[this.categoryIndex].questions[this.questionIndex].answered=true;
 	}
 
-	removePoints(uid,points){
-		console.log('removing ' + points + ' points to ' + uid, this.gamePoints)
-		if(this.gamePoints && this.gamePoints[uid]){
-			points = Math.max(this.gamePoints[uid]-points,0);
+	removePoints(uid,points,email){
+		if(this.gamePoints && this.gamePoints[uid] && this.gamePoints[uid].points){
+			points = Math.max(this.gamePoints[uid].points-points,0);
 		}
 		var pointsRef = firebase.database().ref('game/points/'+uid);
-		pointsRef.set(points).then((res)=>{
-			console.log('success adding points',res)
+		pointsRef.set({points,email}).then((res)=>{
 		}).catch((err)=>{
 			console.log(err)
 		})
@@ -144,6 +142,32 @@ export class AppComponent {
 					points:500,
 					question:'What is the name of the music genre or musical tradition of Ashkenazi Jews originating from Eastern Europe during the 17th century? (commonly heard in weddings and other celebrations)',
 					answer:'Klezmer',
+				},
+			]
+				
+		}, {
+			name:'Famous Jews',
+			questions:[
+				{
+					points:100,
+					question:`The movie "Don't Mess With the Zohan" was played by which famous actor starring the role of Zohan`,
+					answer: 'Adam Sandler'
+				},{
+					points:200,
+					question:'Which famous Canadian artist had the most singles ever charting in the Billboard hot 100 with 27 tracks.',
+					answer: 'Drake (6 God/Champagnepapi)'
+				},{
+					points:300,
+					question:'This icon is known for the formula E=MC2',
+					answer: 'Albert Einstein'
+				},{
+					points:400,
+					question:'This actor is famous for his role in the High School Musical movies',
+					answer: 'Zac Efron',
+				},{
+					points:500,
+					question:'This famous actor is known for his famous sayings such as "I am king of the castle", "Wa wa wi wa", "Very nice I like".',
+					answer:'Sacha Baron Cohen.',
 				},
 			]
 				

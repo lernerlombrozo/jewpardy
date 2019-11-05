@@ -1,5 +1,5 @@
 <div style="text-align:center; width:100%">
-	<div class="grid-container" (click)="resetAll()">
+	<div class="grid-container">
 		<div class="grid-item-header" *ngFor="let category of game">{{category.name}}</div>
 		<div class="grid-item" *ngFor="let category of game;let c = index" (click)="openQuestion(category.questions[0],c,0)" [ngClass]="{'category.questions[0].price':!category.questions[0].answered, 'answer':category.questions[0].answered}"><b>{{category.questions[0].answered? category.questions[0].answer : '$'+category.questions[0].points}}</b></div>
 		<div class="grid-item" *ngFor="let category of game;let c = index" (click)="openQuestion(category.questions[1],c,1)" [ngClass]="{'category.questions[1].price':!category.questions[1].answered, 'answer':category.questions[1].answered}"><b>{{category.questions[1].answered? category.questions[1].answer : '$'+category.questions[1].points}}</b></div>

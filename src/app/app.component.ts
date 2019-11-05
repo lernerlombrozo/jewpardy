@@ -17,20 +17,20 @@ export class AppComponent {
 	this.getGame();
   }
 
-  counter=0;
-  resetAll(){
-	if(this.counter ==10){
-		firebase.database().ref('game/').remove((error)=>{
-			if (error) {
-			  alert('error deleting')
-			} else {
-				alert('restarted database')
-			}
-		});
-		this.counter = 0;
-	}
-	this.counter++
-	}
+//   counter=0;
+//   resetAll(){
+// 	if(this.counter ==10){
+// 		firebase.database().ref('game/').remove((error)=>{
+// 			if (error) {
+// 			  alert('error deleting')
+// 			} else {
+// 				alert('restarted database')
+// 			}
+// 		});
+// 		this.counter = 0;
+// 	}
+// 	this.counter++
+// 	}
 
 	gamePoints:any;
 	gamePointsArray:any[]=[];
@@ -100,7 +100,7 @@ export class AppComponent {
 
 	removePoints(uid,points,email){
 		if(this.gamePoints && this.gamePoints[uid] && this.gamePoints[uid].points){
-			points = Math.max(this.gamePoints[uid].points-points,0);
+			points = this.gamePoints[uid].points-points;
 		}
 		var pointsRef = firebase.database().ref('game/points/'+uid);
 		pointsRef.set({points,email}).then((res)=>{

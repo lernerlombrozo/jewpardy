@@ -185,12 +185,12 @@ export class AppComponent {
 				},{
 					points:300,
 					question:`According to the Jewish Bible, which of the following is NOT kosher?
-					a) Some types of locust
+					a) Lays chips
 					b) Giraffe milk
 					c) Catfish
 					d) Starbucks
 					e) Timmies Camomile Tea`,
-					answer: 'a) Some types of locust'
+					answer: 'c) Catfish'
 				},{
 					points:400,
 					question:'This holiday commemorates the receiving of the 10 commandments on Mount Sinai',
@@ -198,7 +198,7 @@ export class AppComponent {
 				},{
 					points:500,
 					question:'Name the 10 plagues of Egypt we read about during Passover',
-					answer:' blood, frogs, lice, flies, livestock dying, boils, hail, locusts, darkness, and death of firstborn'
+					answer:'Blood, frogs, lice, flies, livestock dying, boils, hail, locusts, darkness, and death of firstborn'
 				},
 			]
 		}, {
@@ -231,7 +231,7 @@ export class AppComponent {
 			questions:[
 				{
 					points:100,
-					question:`In which century were the Jews were expelled from Spain
+					question:`In which century were the Jews expelled from Spain
 					a) 1200s
 					b) 1300s
 					c) 1400s 
@@ -276,10 +276,6 @@ export class AppComponent {
 					answer:'Joshua',
 				}, {
 					points:300,
-					question:'These are the 4 quarters in the Old City',
-					answer:'Hora',
-				}, {
-					points:400,
 					question:`What proportion of the U.S. population are practicing Jews?
 						a) 5.1%
 						b) 9.5%
@@ -289,9 +285,13 @@ export class AppComponent {
 					`,
 					answer:'c) 1.8%',
 				}, {
-					points:500,
+					points:400,
 					question:`What is the name of the circle dance commonly performed in Israeli folk dances?`,
 					answer:'Hora',
+				}, {
+					points:500,
+					question:'What is the location and the name of the largest synagogue in the world?',
+					answer:'Jerusalem and Belz Great Synagogue',
 				}
 			]
 		}
